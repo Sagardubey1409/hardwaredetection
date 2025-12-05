@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -19,20 +18,20 @@
             --dark-bg: #1a1a1a;
             --card-bg: #2d2d2d;
         }
-
-        body {
+        
+        body { 
             background: linear-gradient(135deg, var(--dark-bg) 0%, #2c3e50 100%);
             color: #fff;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             min-height: 100vh;
         }
-
+        
         .navbar {
             background: rgba(44, 62, 80, 0.95);
             backdrop-filter: blur(10px);
             border-bottom: 1px solid rgba(255, 255, 255, 0.1);
         }
-
+        
         .stats-card {
             background: var(--card-bg);
             border-radius: 15px;
@@ -42,30 +41,30 @@
             border: 1px solid rgba(255, 255, 255, 0.1);
             transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
-
+        
         .stats-card:hover {
             transform: translateY(-5px);
             box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
         }
-
+        
         .stats-icon {
             font-size: 2.5rem;
             margin-bottom: 1rem;
         }
-
+        
         .stats-number {
             font-size: 2rem;
             font-weight: bold;
             margin-bottom: 0.5rem;
         }
-
+        
         .stats-label {
             color: #bdc3c7;
             font-size: 0.9rem;
             text-transform: uppercase;
             letter-spacing: 1px;
         }
-
+        
         .table-container {
             background: var(--card-bg);
             border-radius: 15px;
@@ -73,13 +72,13 @@
             box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
             border: 1px solid rgba(255, 255, 255, 0.1);
         }
-
+        
         .table-dark {
             --bs-table-bg: transparent;
             --bs-table-striped-bg: rgba(255, 255, 255, 0.05);
             --bs-table-hover-bg: rgba(255, 255, 255, 0.1);
         }
-
+        
         .table th {
             border-top: none;
             font-weight: 600;
@@ -88,13 +87,13 @@
             font-size: 0.85rem;
             color: #bdc3c7;
         }
-
+        
         .badge {
             font-size: 0.75rem;
             padding: 0.5rem 0.75rem;
             border-radius: 20px;
         }
-
+        
         .qr-side-panel {
             background: var(--card-bg);
             border-radius: 15px 0 0 15px;
@@ -102,7 +101,7 @@
             border: 1px solid rgba(255, 255, 255, 0.1);
             backdrop-filter: blur(10px);
         }
-
+        
         .notification {
             position: fixed;
             top: 20px;
@@ -113,33 +112,26 @@
             box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
             animation: slideIn 0.3s ease;
         }
-
+        
         @keyframes slideIn {
-            from {
-                transform: translateX(100%);
-                opacity: 0;
-            }
-
-            to {
-                transform: translateX(0);
-                opacity: 1;
-            }
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
         }
-
+        
         .connection-status {
             position: fixed;
             bottom: 20px;
             right: 20px;
             z-index: 1000;
         }
-
+        
         .slot-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
             gap: 0.5rem;
             margin-top: 1rem;
         }
-
+        
         .slot-item {
             background: var(--card-bg);
             border-radius: 8px;
@@ -148,17 +140,17 @@
             border: 2px solid transparent;
             transition: all 0.3s ease;
         }
-
+        
         .slot-item.occupied {
             border-color: var(--danger-color);
             background: rgba(231, 76, 60, 0.1);
         }
-
+        
         .slot-item.available {
             border-color: var(--success-color);
             background: rgba(39, 174, 96, 0.1);
         }
-
+        
         .loading-spinner {
             display: inline-block;
             width: 20px;
@@ -168,15 +160,12 @@
             border-top-color: #fff;
             animation: spin 1s ease-in-out infinite;
         }
-
+        
         @keyframes spin {
-            to {
-                transform: rotate(360deg);
-            }
+            to { transform: rotate(360deg); }
         }
     </style>
 </head>
-
 <body>
     <!-- Navigation -->
     <nav class="navbar navbar-expand-lg navbar-dark">
@@ -255,7 +244,7 @@
                             <i class="fas fa-sync-alt me-1"></i>Refresh
                         </button>
                     </div>
-
+                    
                     <div class="table-responsive">
                         <table class="table table-dark table-hover">
                             <thead>
@@ -280,13 +269,13 @@
                                     <td>{{ row[6] if row[6] else "-" }}</td>
                                     <td>
                                         {% if row[5] == 'IN' %}
-                                        <span class="badge bg-success">
-                                            <i class="fas fa-check me-1"></i>IN
-                                        </span>
+                                            <span class="badge bg-success">
+                                                <i class="fas fa-check me-1"></i>IN
+                                            </span>
                                         {% else %}
-                                        <span class="badge bg-secondary">
-                                            <i class="fas fa-times me-1"></i>OUT
-                                        </span>
+                                            <span class="badge bg-secondary">
+                                                <i class="fas fa-times me-1"></i>OUT
+                                            </span>
                                         {% endif %}
                                     </td>
                                 </tr>
@@ -341,7 +330,7 @@
         let statsUpdateInterval;
 
         // Initialize on page load
-        document.addEventListener('DOMContentLoaded', function () {
+        document.addEventListener('DOMContentLoaded', function() {
             initializeSocket();
             updateCurrentTime();
             loadStats();
@@ -381,30 +370,30 @@
         // Initialize Socket.IO connection
         function initializeSocket() {
             socket = io();
-
-            socket.on('connect', function () {
+            
+            socket.on('connect', function() {
                 console.log('Connected to server');
                 const statusElement = document.getElementById('connectionStatus');
                 statusElement.className = 'badge bg-success';
                 statusElement.innerHTML = '<i class="fas fa-circle me-1"></i>Live';
             });
 
-            socket.on('disconnect', function () {
+            socket.on('disconnect', function() {
                 console.log('Disconnected from server');
                 const statusElement = document.getElementById('connectionStatus');
                 statusElement.className = 'badge bg-danger';
                 statusElement.innerHTML = '<i class="fas fa-circle me-1"></i>Offline';
             });
 
-            socket.on('logs_update', function (data) {
+            socket.on('logs_update', function(data) {
                 updateTable(data.logs);
             });
 
-            socket.on('slots_update', function (data) {
+            socket.on('slots_update', function(data) {
                 updateSlotGrid(data.slots);
             });
 
-            socket.on('pending_exit', function (data) {
+            socket.on('pending_exit', function(data) {
                 currentPendingPlate = data.plate;
                 if (currentPendingPlate) {
                     showQRPanel(currentPendingPlate);
@@ -413,7 +402,7 @@
                 }
             });
 
-            socket.on('plate_detected', function (data) {
+            socket.on('plate_detected', function(data) {
                 showNotification(`Plate ${data.plate} detected - ${data.status}`, 'info');
                 if (data.status === 'exit_pending') {
                     currentPendingPlate = data.plate;
@@ -421,7 +410,7 @@
                 }
             });
 
-            socket.on('payment_confirmed', function (data) {
+            socket.on('payment_confirmed', function(data) {
                 showNotification(`Payment confirmed for ${data.plate}`, 'success');
                 if (currentPendingPlate === data.plate) {
                     hideQRPanel();
@@ -433,7 +422,7 @@
         function updateTable(logs) {
             const tbody = document.getElementById('logsTableBody');
             tbody.innerHTML = '';
-
+            
             logs.forEach(row => {
                 const tr = document.createElement('tr');
                 tr.innerHTML = `
@@ -444,9 +433,9 @@
                     <td>${row[4] ? '₹' + row[4] : '-'}</td>
                     <td>${row[6] ? row[6] : '-'}</td>
                     <td>
-                        ${row[5] === 'IN' ?
-                        '<span class="badge bg-success"><i class="fas fa-check me-1"></i>IN</span>' :
-                        '<span class="badge bg-secondary"><i class="fas fa-times me-1"></i>OUT</span>'}
+                        ${row[5] === 'IN' ? 
+                            '<span class="badge bg-success"><i class="fas fa-check me-1"></i>IN</span>' : 
+                            '<span class="badge bg-secondary"><i class="fas fa-times me-1"></i>OUT</span>'}
                     </td>
                 `;
                 tbody.appendChild(tr);
@@ -457,7 +446,7 @@
         function updateSlotGrid(slots) {
             const slotGrid = document.getElementById('slotGrid');
             slotGrid.innerHTML = '';
-
+            
             Object.entries(slots).forEach(([slot, plate]) => {
                 const slotItem = document.createElement('div');
                 slotItem.className = `slot-item ${plate ? 'occupied' : 'available'}`;
@@ -478,7 +467,7 @@
                 ${message}
             `;
             document.body.appendChild(notification);
-
+            
             setTimeout(() => {
                 notification.remove();
             }, 5000);
@@ -490,11 +479,11 @@
                 .then(res => res.json())
                 .then(data => {
                     if (data.error) {
-                        document.getElementById('qrPanelContent').innerHTML =
+                        document.getElementById('qrPanelContent').innerHTML = 
                             `<div class='alert alert-danger'>${data.error}</div>`;
                         return;
                     }
-
+                    
                     document.getElementById('qrPanelContent').innerHTML = `
                         <div class="text-center">
                             <h6 class="text-info mb-3">Payment for <strong>${data.plate}</strong></h6>
@@ -514,16 +503,16 @@
                             </button>
                         </div>
                     `;
-
+                    
                     document.getElementById('qrSidePanel').style.display = 'block';
-
-                    document.getElementById('doneBtn').onclick = function () {
+                    
+                    document.getElementById('doneBtn').onclick = function() {
                         confirmExit(data.plate);
                     };
                 })
                 .catch(err => {
                     console.error('QR panel error:', err);
-                    document.getElementById('qrPanelContent').innerHTML =
+                    document.getElementById('qrPanelContent').innerHTML = 
                         `<div class='alert alert-danger'>Error loading payment info</div>`;
                 });
         }
@@ -541,19 +530,19 @@
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ plate: plate })
             })
-                .then(res => res.json())
-                .then(resp => {
-                    if (resp.success) {
-                        showNotification(`Exit confirmed for ${plate}`, 'success');
-                        hideQRPanel();
-                    } else {
-                        showNotification(`Error: ${resp.error || 'Could not confirm exit'}`, 'danger');
-                    }
-                })
-                .catch(err => {
-                    console.error('Confirm exit error:', err);
-                    showNotification('Network error', 'danger');
-                });
+            .then(res => res.json())
+            .then(resp => {
+                if (resp.success) {
+                    showNotification(`Exit confirmed for ${plate}`, 'success');
+                    hideQRPanel();
+                } else {
+                    showNotification(`Error: ${resp.error || 'Could not confirm exit'}`, 'danger');
+                }
+            })
+            .catch(err => {
+                console.error('Confirm exit error:', err);
+                showNotification('Network error', 'danger');
+            });
         }
 
         // Close panel button
@@ -570,5 +559,4 @@
             });
     </script>
 </body>
-
 </html>
