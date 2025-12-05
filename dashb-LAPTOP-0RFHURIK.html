@@ -174,68 +174,6 @@
                 transform: rotate(360deg);
             }
         }
-
-        /* Alert Modal Styles */
-        .modal-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.8);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 10000;
-        }
-
-        .modal-content.alert-modal {
-            background: var(--card-bg);
-            border-radius: 20px;
-            max-width: 500px;
-            width: 90%;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
-            border: 2px solid var(--warning-color);
-        }
-
-        .modal-content.alert-modal .modal-header {
-            background: linear-gradient(135deg, var(--warning-color) 0%, #e67e22 100%);
-            color: white;
-            padding: 1.5rem 2rem;
-            border-radius: 18px 18px 0 0;
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-        }
-
-        .modal-content.alert-modal .modal-header i {
-            font-size: 2rem;
-        }
-
-        .modal-content.alert-modal .modal-header h4 {
-            margin: 0;
-            font-weight: 600;
-        }
-
-        .modal-content.alert-modal .modal-body {
-            padding: 2rem;
-            font-size: 1.1rem;
-            text-align: center;
-            color: #ecf0f1;
-        }
-
-        .modal-content.alert-modal .modal-footer {
-            padding: 1rem 2rem 2rem;
-            display: flex;
-            justify-content: center;
-        }
-
-        .modal-content.alert-modal .modal-footer .btn {
-            min-width: 120px;
-            font-weight: 600;
-            padding: 0.75rem 2rem;
-            border-radius: 10px;
-        }
     </style>
 </head>
 
@@ -334,14 +272,14 @@
                             <tbody id="logsTableBody">
                                 {% for row in logs %}
                                 <tr>
-                                    <td><strong>{{ row.plate if row.plate else 'Unknown' }}</strong></td>
-                                    <td>{{ row.entry_time if row.entry_time else '-' }}</td>
-                                    <td>{{ row.exit_time if row.exit_time else "-" }}</td>
-                                    <td>{{ (row.duration_min|string + ' min') if row.duration_min else "-" }}</td>
-                                    <td>{{ ("₹" + row.amount|string) if row.amount else "-" }}</td>
-                                    <td>{{ row.slot if row.slot else "-" }}</td>
+                                    <td><strong>{{ row[0] }}</strong></td>
+                                    <td>{{ row[1] }}</td>
+                                    <td>{{ row[2] if row[2] else "-" }}</td>
+                                    <td>{{ row[3] if row[3] else "-" }} min</td>
+                                    <td>{{ "₹" + row[4]|string if row[4] else "-" }}</td>
+                                    <td>{{ row[6] if row[6] else "-" }}</td>
                                     <td>
-                                        {% if row.status == 'IN' %}
+                                        {% if row[5] == 'IN' %}
                                         <span class="badge bg-success">
                                             <i class="fas fa-check me-1"></i>IN
                                         </span>
@@ -499,14 +437,14 @@
             logs.forEach(row => {
                 const tr = document.createElement('tr');
                 tr.innerHTML = `
-                    <td><strong>${row.plate || 'Unknown'}</strong></td>
-                    <td>${row.entry_time || '-'}</td>
-                    <td>${row.exit_time || '-'}</td>
-                    <td>${row.duration_min ? row.duration_min + ' min' : '-'}</td>
-                    <td>${row.amount ? '₹' + row.amount : '-'}</td>
-                    <td>${row.slot || '-'}</td>
+                    <td><strong>${row[0]}</strong></td>
+                    <td>${row[1]}</td>
+                    <td>${row[2] ? row[2] : '-'}</td>
+                    <td>${row[3] ? row[3] + ' min' : '-'}</td>
+                    <td>${row[4] ? '₹' + row[4] : '-'}</td>
+                    <td>${row[6] ? row[6] : '-'}</td>
                     <td>
-                        ${row.status === 'IN' ?
+                        ${row[5] === 'IN' ?
                         '<span class="badge bg-success"><i class="fas fa-check me-1"></i>IN</span>' :
                         '<span class="badge bg-secondary"><i class="fas fa-times me-1"></i>OUT</span>'}
                     </td>
@@ -630,21 +568,6 @@
                     showQRPanel(currentPendingPlate);
                 }
             });
-
-        // Alert Modal Functions
-        function closeAlert() {
-            document.getElementById('alertModal').style.display = 'none';
-        }
-
-        // Socket event handler for alerts
-        if (socket) {
-            socket.on('show_alert', function (data) {
-                const modal = document.getElementById('alertModal');
-                const message = document.getElementById('alertMessage');
-                message.textContent = data.message;
-                modal.style.display = 'flex';
-            });
-        }
     </script>
 </body>
 
